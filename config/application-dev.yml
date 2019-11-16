@@ -1,0 +1,77 @@
+server:
+  port: 8793
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    metadata-map:
+      cluster:
+        hystrix: ${spring.application.tag}
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 10000
+logging:
+  config: classpath:log4j2.xml
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      db-type: mysql
+      field-strategy: not_empty
+      id-type: auto
+    super-mapper-class: com.laidian.erp.common.mapper.BaseMapper
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.laidian.erp.devops.entity
+spring:
+  aop:
+    auto: true
+    proxy-target-class: true
+  redis:
+    database: 0
+    host: 192.168.10.247
+    password: laidiantech
+    port: 6379
+    timeout: 2000
+  data:
+    mongodb:
+      uri: mongodb://root:fNTmRLkWXcKWvvNs3mdL@ldmongo001master.mongodb.rds.aliyuncs.com:3717,ldmongo001slave.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-10405823
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+          initialSize: 5
+          maxActive: 20
+          minIdle: 5
+          password: laidian225
+          type: com.zaxxer.hikari.HikariDataSource
+          url: jdbc:p6spy:mysql://192.168.10.225:3306/crm?useSSL=false&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+          username: ld225_rw
+        slave_1:
+          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+          initialSize: 5
+          maxActive: 20
+          minIdle: 5
+          password: laidian225
+          type: com.zaxxer.hikari.HikariDataSource
+          url: jdbc:p6spy:mysql://192.168.10.225:3306/crm?useSSL=false&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+          username: ld225_rw
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+    mapper:
+      PROPAGATE_TRANSIENT_MARKER: true
+    parser:
+      ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER: true
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+      WRITE_DATES_AS_TIMESTAMPS: false
+    time-zone: GMT+8
+swagger.show: false
